@@ -1,0 +1,84 @@
+
+/* PromptForge AI - Phase 1 Styles */
+
+/* Main container */
+.block-container{
+    padding-top:2rem;
+    padding-bottom:2rem;
+    max-width:1200px;
+}
+
+/* Headings */
+h1,h2,h3{
+    font-weight:700;
+    letter-spacing:.2px;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"]{
+    border-right:1px solid rgba(120,120,120,.2);
+}
+
+/* Cards */
+div[data-testid="stMetric"]{
+    border:1px solid rgba(120,120,120,.25);
+    border-radius:14px;
+    padding:12px;
+    background:rgba(255,255,255,.03);
+}
+
+/* Text areas */
+.stTextArea textarea{
+    border-radius:12px !important;
+    font-size:15px !important;
+    line-height:1.6 !important;
+}
+
+/* Buttons */
+.stButton>button,
+.stDownloadButton>button{
+    width:100%;
+    border-radius:12px;
+    padding:.65rem 1rem;
+    font-weight:600;
+    transition:all .2s ease-in-out;
+}
+
+.stButton>button:hover,
+.stDownloadButton>button:hover{
+    transform:translateY(-2px);
+}
+
+/* Select boxes */
+.stSelectbox>div>div{
+    border-radius:10px;
+}
+
+/* Slider spacing */
+.stSlider{
+    padding-top:.4rem;
+}
+
+/* Progress bar */
+.stProgress>div>div>div{
+    border-radius:999px;
+}
+
+/* Divider spacing */
+hr{
+    margin-top:2rem;
+    margin-bottom:2rem;
+}
+
+/* Info/success boxes */
+.stAlert{
+    border-radius:12px;
+}
+
+/* Footer */
+.pf-footer{
+    margin-top:2rem;
+    text-align:center;
+    opacity:.7;
+    font-size:.9rem;
+}

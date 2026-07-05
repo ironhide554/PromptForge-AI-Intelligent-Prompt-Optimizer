@@ -1,9 +1,3 @@
-"""
-utils/scoring.py
-
-Prompt quality scoring for PromptForge AI.
-"""
-
 import re
 
 ROLE_PATTERNS = [

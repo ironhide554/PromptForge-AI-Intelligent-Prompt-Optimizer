@@ -7,3 +7,5 @@ huggingface-hub>=0.30.0
 safetensors>=0.4.5
 numpy>=1.26.0
 pandas>=2.2.0
+torchvision>=0.18.0
+torchaudio>=2.3.0

@@ -1,8 +1,3 @@
-"""
-models/optimizer.py
-
-Prompt optimization using FLAN-T5.
-"""
 
 from transformers import pipeline
 import torch

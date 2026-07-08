@@ -1,4 +1,4 @@
-# ✨ PromptForge AI
+# ✨ PromptForge AI Intelligent Prompt Optimizer
 
 <div align="center">
 

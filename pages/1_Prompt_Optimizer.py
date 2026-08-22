@@ -1,5 +1,4 @@
 import streamlit as st
-from models.optimizer import PromptOptimizer
 from models.classifier import PromptClassifier
 from models.analyzer import PromptAnalyzer
 from utils.prompt_stats import PromptStats
@@ -7,12 +6,6 @@ from utils.scoring import score_prompt
 from utils.api_client import generate_response
 
 st.set_page_config(page_title="Prompt Optimizer",page_icon="✨",layout="wide")
-
-@st.cache_resource
-def load_optimizer():
-    return PromptOptimizer()
-
-optimizer=load_optimizer()
 classifier=PromptClassifier()
 analyzer=PromptAnalyzer()
 stats_engine=PromptStats()
@@ -20,35 +13,31 @@ stats_engine=PromptStats()
 st.title("✨ Prompt Optimizer")
 st.caption("Transform simple prompts into high-quality prompts for LLMs.")
 
-engine = st.sidebar.radio("Optimizer Engine", ["Cloud AI (Smart & Powerful)", "Local FLAN-T5 (Basic & Fast)"])
-
-if engine == "Cloud AI (Smart & Powerful)":
-    st.sidebar.markdown("---")
-    provider = st.sidebar.selectbox("AI Provider", ["OpenAI", "Anthropic", "Google Gemini"])
-    api_key = st.sidebar.text_input(f"{provider} API Key", type="password", help="Required for Cloud AI optimization")
-    if provider == "OpenAI":
-        opt_model = "gpt-4o-mini"
-    elif provider == "Anthropic":
-        opt_model = "claude-3-haiku-20240307"
-    else:
-        if api_key:
-            import google.generativeai as genai
-            genai.configure(api_key=api_key)
-            try:
-                available_models = [m.name.replace('models/', '') for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
-                available_models.sort(reverse=True) # Put newer versions higher up
-                
-                default_idx = 0
-                for i, m in enumerate(available_models):
-                    if "3.6-flash" in m:
-                        default_idx = i
-                        break
-                
-                opt_model = st.sidebar.selectbox("Select Gemini Model", available_models, index=default_idx)
-            except Exception:
-                opt_model = "gemini-3.6-flash"
-        else:
+provider = st.sidebar.selectbox("AI Provider", ["OpenAI", "Anthropic", "Google Gemini"])
+api_key = st.sidebar.text_input(f"{provider} API Key", type="password", help="Required for Cloud AI optimization")
+if provider == "OpenAI":
+    opt_model = "gpt-4o-mini"
+elif provider == "Anthropic":
+    opt_model = "claude-3-haiku-20240307"
+else:
+    if api_key:
+        import google.generativeai as genai
+        genai.configure(api_key=api_key)
+        try:
+            available_models = [m.name.replace('models/', '') for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+            available_models.sort(reverse=True) # Put newer versions higher up
+            
+            default_idx = 0
+            for i, m in enumerate(available_models):
+                if "3.6-flash" in m:
+                    default_idx = i
+                    break
+            
+            opt_model = st.sidebar.selectbox("Select Gemini Model", available_models, index=default_idx)
+        except Exception:
             opt_model = "gemini-3.6-flash"
+    else:
+        opt_model = "gemini-3.6-flash"
         
 st.sidebar.markdown("---")
 target=st.sidebar.selectbox("Target Model",["ChatGPT / GPT-4o", "Claude 3.5 Sonnet", "Gemini 1.5 Pro", "DeepSeek", "Llama 3", "Mistral"])
@@ -69,14 +58,11 @@ with c1:
 if run and prompt.strip():
     with st.spinner("Forging Prompt..."):
         try:
-            if engine == "Local FLAN-T5 (Basic & Fast)":
-                result = optimizer.optimize(prompt, target_model=target, style=style, temperature=temperature)
+            if not api_key:
+                st.error("Please enter your API Key in the sidebar to use the Optimizer.")
+                result = ""
             else:
-                if not api_key:
-                    st.error("Please enter your API Key in the sidebar to use the Cloud Engine.")
-                    result = ""
-                else:
-                    meta_prompt = f"""You are an expert Prompt Engineer. Rewrite the following user prompt into a highly structured, professional prompt.
+                meta_prompt = f"""You are an expert Prompt Engineer. Rewrite the following user prompt into a highly structured, professional prompt.
 Requirements:
 - Optimize it for: {target}
 - Desired Style: {style}
@@ -87,8 +73,8 @@ Requirements:
 User's Original Prompt:
 {prompt}
 """
-                    result = generate_response(provider, api_key, meta_prompt, opt_model)
-            
+                result = generate_response(provider, api_key, meta_prompt, opt_model)
+        
             if result and not result.startswith("Error"):
                 st.session_state.optimized_prompt = result
             elif result.startswith("Error"):

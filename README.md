@@ -4,17 +4,17 @@
 
 # PromptForge AI
 
-### Intelligent Prompt Optimizer using Transformer Models
+### Intelligent Prompt Optimizer using Cloud AI (BYOK)
 
 Transform simple prompts into structured, high-quality prompts for ChatGPT, Claude, Gemini, DeepSeek, Llama, and other Large Language Models.
 
-Built with **Streamlit**, **Transformers**, and **FLAN-T5**.
+Built with **Streamlit** and powered by **OpenAI, Anthropic, and Google Gemini APIs**.
 
 ---
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
-![Transformers](https://img.shields.io/badge/HuggingFace-Transformers-yellow)
+![BYOK](https://img.shields.io/badge/Architecture-BYOK-yellow)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 </div>
@@ -25,7 +25,7 @@ Built with **Streamlit**, **Transformers**, and **FLAN-T5**.
 
 PromptForge AI is an intelligent prompt optimization system that helps users convert vague prompts into detailed, structured, and high-quality prompts suitable for modern Large Language Models (LLMs).
 
-The application analyzes prompt quality, provides actionable improvement suggestions, calculates a prompt quality score, and generates optimized prompts using Google's FLAN-T5 Transformer model.
+The application uses a **Bring-Your-Own-Key (BYOK)** architecture, allowing you to connect securely to OpenAI, Anthropic, or Google Gemini. It uses these state-of-the-art models as "Expert Prompt Engineers" to analyze prompt quality, provide actionable improvement suggestions, calculate a quality score, and generate highly optimized prompts.
 
 ---
 
@@ -141,19 +141,18 @@ PromptForge-AI/
 
 * Python
 
-## AI Models
+## AI Integrations (BYOK)
 
-* FLAN-T5 Base
-* Hugging Face Transformers
+* OpenAI API
+* Anthropic API
+* Google Gemini API
 
 ## Libraries
 
-* Transformers
-* PyTorch
-* Accelerate
-* SentencePiece
-* NumPy
-* Pandas
+* openai
+* anthropic
+* google-generativeai
+* pytest
 
 ---
 
@@ -210,19 +209,16 @@ pytest tests/
 # 📈 Workflow
 
 ```text
-User Prompt
+User Prompt + Selected Target & Style
       │
       ▼
-Prompt Analysis
+Prompt Analysis & Scoring
       │
       ▼
-Prompt Scoring
+Cloud AI API (OpenAI/Anthropic/Gemini)
       │
       ▼
-Transformer (FLAN-T5)
-      │
-      ▼
-Optimized Prompt
+Optimized Prompt & Final Scoring
       │
       ▼
 Download Result

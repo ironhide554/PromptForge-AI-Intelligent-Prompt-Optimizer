@@ -54,11 +54,13 @@ with st.sidebar:
     st.header("Settings")
     target = st.selectbox(
         "Target Model",
-        ["ChatGPT", "Claude", "Gemini", "DeepSeek", "Llama", "Mistral"]
+        ["ChatGPT / GPT-4o", "Claude 3.5 Sonnet", "Gemini 1.5 Pro", "DeepSeek", "Llama 3", "Mistral"],
+        help="Select the AI model you intend to use this prompt with."
     )
     style = st.selectbox(
         "Optimization Style",
-        ["Professional", "Detailed", "Concise", "Beginner", "Expert"]
+        ["Professional", "Detailed", "Concise", "Beginner", "Expert"],
+        help="Choose the tone and structure of the generated prompt."
     )
     temperature = st.slider("Creativity", 0.0, 1.0, 0.3)
     st.info("Phase 1: Prompt Optimization + Prompt Scoring")

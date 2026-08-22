@@ -23,6 +23,19 @@ class PromptOptimizer:
         temperature: float = 0.3,
         max_new_tokens: int = 256,
     ) -> str:
+        """
+        Enhances the given user prompt using a local sequence-to-sequence model.
+        
+        Args:
+            prompt (str): The raw input prompt from the user.
+            target_model (str): The LLM this prompt is being optimized for.
+            style (str): The desired tone/style of the prompt.
+            temperature (float): Sampling temperature for generation.
+            max_new_tokens (int): Maximum length of the generated prompt.
+            
+        Returns:
+            str: The optimized, highly-structured prompt.
+        """
         instruction = f"""Rewrite the following user prompt into a high-quality AI prompt.
 
 Requirements:

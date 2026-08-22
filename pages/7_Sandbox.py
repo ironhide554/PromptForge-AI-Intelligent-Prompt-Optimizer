@@ -17,8 +17,14 @@ col1, col2 = st.columns([1, 2])
 with col1:
     st.subheader("⚙️ Setup")
     provider = st.selectbox(
-        "Select Provider",
-        ["OpenAI", "Anthropic", "Google Gemini"]
+        "AI Provider",
+        ["Google Gemini", "OpenAI", "Anthropic"]
+    )
+    
+    api_key = st.text_input(
+        f"{provider} API Key",
+        type="password",
+        help=f"Enter your {provider} API key. It will not be stored."
     )
     
     if provider == "OpenAI":
@@ -26,14 +32,17 @@ with col1:
     elif provider == "Anthropic":
         model_name = st.selectbox("Model", ["claude-3-haiku-20240307", "claude-3-5-sonnet-20240620", "claude-3-opus-20240229"])
     else:
-        model_name = st.selectbox("Model", ["gemini-1.5-flash", "gemini-pro", "gemini-1.5-pro"])
+        if api_key:
+            import google.generativeai as genai
+            genai.configure(api_key=api_key)
+            try:
+                available_models = [m.name.replace('models/', '') for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+                model_name = st.selectbox("Model", available_models)
+            except Exception:
+                model_name = st.selectbox("Model", ["gemini-1.5-flash", "gemini-pro", "gemini-1.5-pro"])
+        else:
+            model_name = st.selectbox("Model", ["gemini-1.5-flash", "gemini-pro", "gemini-1.5-pro"])
         
-    api_key = st.text_input(
-        f"{provider} API Key",
-        type="password",
-        placeholder="sk-..."
-    )
-    
     st.info("Don't have a key? Get one from the developer console of the respective provider.")
 
 with col2:

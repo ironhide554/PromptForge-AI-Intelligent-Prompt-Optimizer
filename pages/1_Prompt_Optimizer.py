@@ -31,7 +31,16 @@ if engine == "Cloud AI (Smart & Powerful)":
     elif provider == "Anthropic":
         opt_model = "claude-3-haiku-20240307"
     else:
-        opt_model = "gemini-1.5-flash"
+        if api_key:
+            import google.generativeai as genai
+            genai.configure(api_key=api_key)
+            try:
+                available_models = [m.name.replace('models/', '') for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+                opt_model = st.sidebar.selectbox("Select Gemini Model", available_models)
+            except Exception:
+                opt_model = "gemini-1.5-flash"
+        else:
+            opt_model = "gemini-1.5-flash"
         
 st.sidebar.markdown("---")
 target=st.sidebar.selectbox("Target Model",["ChatGPT / GPT-4o", "Claude 3.5 Sonnet", "Gemini 1.5 Pro", "DeepSeek", "Llama 3", "Mistral"])

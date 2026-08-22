@@ -31,7 +31,7 @@ if engine == "Cloud AI (Smart & Powerful)":
     elif provider == "Anthropic":
         opt_model = "claude-3-5-sonnet-20240620"
     else:
-        opt_model = "gemini-1.5-pro"
+        opt_model = "gemini-1.5-pro-latest"
         
 st.sidebar.markdown("---")
 target=st.sidebar.selectbox("Target Model",["ChatGPT / GPT-4o", "Claude 3.5 Sonnet", "Gemini 1.5 Pro", "DeepSeek", "Llama 3", "Mistral"])

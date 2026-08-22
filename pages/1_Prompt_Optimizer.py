@@ -105,23 +105,58 @@ with c2:
 st.divider()
 
 if prompt.strip():
-    st.subheader("📊 Prompt Analysis")
-    score, suggestions = score_prompt(prompt)
-    cls = classifier.classify(prompt)
-    ana = analyzer.analyze(prompt)
-    stats = stats_engine.calculate(prompt)
-    
-    a, b, c, d = st.columns(4)
-    a.metric("Score", f"{score}/100")
-    b.metric("Category", cls.category)
-    c.metric("Confidence", f"{int(cls.confidence*100)}%")
-    d.metric("Words", stats.word_count)
-    
-    st.progress(score/100)
-    
-    st.subheader("💡 Suggestions")
-    if ana.suggestions:
-        for s in ana.suggestions:
-            st.info(s)
+    if not st.session_state.optimized_prompt:
+        # Just show original if no optimization has run yet
+        st.subheader("📊 Original Prompt Analysis")
+        score, _ = score_prompt(prompt)
+        cls = classifier.classify(prompt)
+        ana = analyzer.analyze(prompt)
+        stats = stats_engine.calculate(prompt)
+        
+        a, b, c, d = st.columns(4)
+        a.metric("Score", f"{score}/100")
+        b.metric("Category", cls.category)
+        c.metric("Confidence", f"{int(cls.confidence*100)}%")
+        d.metric("Words", stats.word_count)
+        
+        st.progress(score/100)
+        
+        st.subheader("💡 Suggestions")
+        if ana.suggestions:
+            for s in ana.suggestions:
+                st.info(s)
+        else:
+            st.success("Great prompt! No suggestions.")
     else:
-        st.success("Great prompt! No suggestions.")
+        st.subheader("📊 Optimization Results")
+        
+        # Original
+        o_score, _ = score_prompt(prompt)
+        o_cls = classifier.classify(prompt)
+        o_stats = stats_engine.calculate(prompt)
+        
+        # Optimized
+        opt_score, _ = score_prompt(st.session_state.optimized_prompt)
+        opt_cls = classifier.classify(st.session_state.optimized_prompt)
+        opt_ana = analyzer.analyze(st.session_state.optimized_prompt)
+        opt_stats = stats_engine.calculate(st.session_state.optimized_prompt)
+        
+        col_orig, col_opt = st.columns(2)
+        with col_orig:
+            st.markdown("### 📝 Original")
+            st.metric("Score", f"{o_score}/100")
+            st.caption(f"Words: **{o_stats.word_count}** | Category: **{o_cls.category}**")
+            
+        with col_opt:
+            st.markdown("### ✨ Optimized")
+            st.metric("Score", f"{opt_score}/100", delta=f"{opt_score - o_score} points")
+            st.caption(f"Words: **{opt_stats.word_count}** | Category: **{opt_cls.category}**")
+            
+        st.progress(opt_score/100, text=f"Optimized Prompt Quality: {opt_score}%")
+        
+        st.subheader("💡 Final Suggestions")
+        if opt_ana.suggestions:
+            for s in opt_ana.suggestions:
+                st.info(s)
+        else:
+            st.success("This prompt is fully optimized and ready to use! ✨")

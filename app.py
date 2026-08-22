@@ -112,19 +112,21 @@ Requirements:
 - Tailor the response for {target}.
 """
 
+                st.session_state.optimized_box = result
                 st.session_state.optimized = result
 
     st.text_area(
-        "",
+        "Optimized Prompt Output",
         value=st.session_state.optimized,
         height=300,
         key="optimized_box",
+        label_visibility="hidden"
     )
 
-    if st.session_state.optimized:
+    if st.session_state.get("optimized_box"):
         st.download_button(
             "⬇ Download Prompt",
-            st.session_state.optimized,
+            st.session_state.optimized_box,
             file_name="optimized_prompt.txt",
             mime="text/plain",
             use_container_width=True,

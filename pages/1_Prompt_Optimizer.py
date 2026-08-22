@@ -27,11 +27,11 @@ if engine == "Cloud AI (Smart & Powerful)":
     provider = st.sidebar.selectbox("AI Provider", ["OpenAI", "Anthropic", "Google Gemini"])
     api_key = st.sidebar.text_input(f"{provider} API Key", type="password", help="Required for Cloud AI optimization")
     if provider == "OpenAI":
-        opt_model = "gpt-4o"
+        opt_model = "gpt-4o-mini"
     elif provider == "Anthropic":
-        opt_model = "claude-3-5-sonnet-20240620"
+        opt_model = "claude-3-haiku-20240307"
     else:
-        opt_model = "gemini-pro"
+        opt_model = "gemini-1.5-flash"
         
 st.sidebar.markdown("---")
 target=st.sidebar.selectbox("Target Model",["ChatGPT / GPT-4o", "Claude 3.5 Sonnet", "Gemini 1.5 Pro", "DeepSeek", "Llama 3", "Mistral"])

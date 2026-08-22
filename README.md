@@ -199,6 +199,12 @@ Run the application
 streamlit run app.py
 ```
 
+Run tests
+
+```bash
+pytest tests/
+```
+
 ---
 
 # 📈 Workflow

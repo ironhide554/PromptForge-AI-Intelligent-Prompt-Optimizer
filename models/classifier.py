@@ -86,11 +86,30 @@ class PromptClassifier:
                 "prediction",
                 "training",
                 "model"
+            ],
+            
+            "Data Analysis": [
+                "data analysis",
+                "pandas",
+                "matplotlib",
+                "seaborn",
+                "visualization",
+                "chart",
+                "graph",
+                "statistics"
             ]
         }
 
     def classify(self, prompt: str) -> ClassificationResult:
-
+        """
+        Classifies a given prompt into a category based on keyword matching.
+        
+        Args:
+            prompt (str): The user prompt to classify.
+            
+        Returns:
+            ClassificationResult: Result containing category name, confidence score, and matched keywords.
+        """
         prompt_lower = prompt.lower()
 
         scores = {}

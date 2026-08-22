@@ -26,7 +26,7 @@ with col1:
     elif provider == "Anthropic":
         model_name = st.selectbox("Model", ["claude-3-5-sonnet-20240620", "claude-3-opus-20240229", "claude-3-haiku-20240307"])
     else:
-        model_name = st.selectbox("Model", ["gemini-1.5-pro-latest", "gemini-1.5-flash-latest"])
+        model_name = st.selectbox("Model", ["gemini-pro", "gemini-1.5-flash", "gemini-1.5-pro"])
         
     api_key = st.text_input(
         f"{provider} API Key",

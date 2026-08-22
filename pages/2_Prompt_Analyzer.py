@@ -327,19 +327,19 @@ if analyze_button:
 
     st.subheader("🎯 Recommendation")
 
-    if analysis.overall_score >= 90:
+    if score >= 90:
 
         st.success(
             "Excellent prompt. Ready for production use."
         )
 
-    elif analysis.overall_score >= 75:
+    elif score >= 75:
 
         st.success(
             "Very good prompt. Minor improvements recommended."
         )
 
-    elif analysis.overall_score >= 55:
+    elif score >= 55:
 
         st.warning(
             "Average prompt. Consider adding more context and constraints."

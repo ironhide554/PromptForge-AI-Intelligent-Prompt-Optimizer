@@ -1,34 +1,39 @@
 import re
+from typing import List, Tuple
 
 ROLE_PATTERNS = [
-    "act as", "you are", "behave as", "assume the role", "role:"
+    "act as", "you are", "behave as", "assume the role", "role:", "imagine you are"
 ]
 
 FORMAT_PATTERNS = [
     "markdown", "json", "table", "bullet", "csv", "xml",
-    "output", "format", "response format"
+    "output", "format", "response format", "structure"
 ]
 
 CONSTRAINT_PATTERNS = [
     "must", "only", "do not", "don't", "without",
-    "maximum", "minimum", "limit", "exactly", "under", "at least"
+    "maximum", "minimum", "limit", "exactly", "under", "at least", "ensure"
 ]
 
 EXAMPLE_PATTERNS = [
-    "example", "for example", "sample"
+    "example", "for example", "sample", "such as", "like this:"
 ]
 
 
-def _contains_any(text: str, patterns) -> bool:
+def _contains_any(text: str, patterns: List[str]) -> bool:
     t = text.lower()
     return any(p in t for p in patterns)
 
 
-def score_prompt(prompt: str):
+def score_prompt(prompt: str) -> Tuple[int, List[str]]:
     """
+    Evaluates a prompt and provides a quality score and suggestions.
+    
+    Args:
+        prompt (str): The user's prompt.
+        
     Returns:
-        score (0-100)
-        suggestions (list[str])
+        Tuple[int, List[str]]: score (0-100) and list of suggestions.
     """
     text = prompt.strip()
     lower = text.lower()

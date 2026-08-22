@@ -283,8 +283,7 @@ if analyze_button:
 
     suggestions = list(
         dict.fromkeys(
-            analysis.suggestions +
-            score_suggestions
+            analysis.suggestions
         )
     )
 

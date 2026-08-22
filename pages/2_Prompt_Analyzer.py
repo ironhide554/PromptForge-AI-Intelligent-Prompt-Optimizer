@@ -92,7 +92,7 @@ if analyze_button:
 
     c1.metric(
         "Overall Score",
-        f"{analysis.overall_score}/100"
+        f"{score}/100"
     )
 
     c2.metric(
@@ -111,7 +111,7 @@ if analyze_button:
     )
 
     st.progress(
-        analysis.overall_score / 100
+        score / 100
     )
 
     st.divider()

@@ -36,11 +36,19 @@ if engine == "Cloud AI (Smart & Powerful)":
             genai.configure(api_key=api_key)
             try:
                 available_models = [m.name.replace('models/', '') for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
-                opt_model = st.sidebar.selectbox("Select Gemini Model", available_models)
+                available_models.sort(reverse=True) # Put newer versions higher up
+                
+                default_idx = 0
+                for i, m in enumerate(available_models):
+                    if "3.6-flash" in m:
+                        default_idx = i
+                        break
+                
+                opt_model = st.sidebar.selectbox("Select Gemini Model", available_models, index=default_idx)
             except Exception:
-                opt_model = "gemini-1.5-flash"
+                opt_model = "gemini-3.6-flash"
         else:
-            opt_model = "gemini-1.5-flash"
+            opt_model = "gemini-3.6-flash"
         
 st.sidebar.markdown("---")
 target=st.sidebar.selectbox("Target Model",["ChatGPT / GPT-4o", "Claude 3.5 Sonnet", "Gemini 1.5 Pro", "DeepSeek", "Llama 3", "Mistral"])

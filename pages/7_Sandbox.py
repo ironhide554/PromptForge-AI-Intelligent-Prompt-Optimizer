@@ -37,11 +37,19 @@ with col1:
             genai.configure(api_key=api_key)
             try:
                 available_models = [m.name.replace('models/', '') for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
-                model_name = st.selectbox("Model", available_models)
+                available_models.sort(reverse=True)
+                
+                default_idx = 0
+                for i, m in enumerate(available_models):
+                    if "3.6-flash" in m:
+                        default_idx = i
+                        break
+                        
+                model_name = st.selectbox("Model", available_models, index=default_idx)
             except Exception:
-                model_name = st.selectbox("Model", ["gemini-1.5-flash", "gemini-pro", "gemini-1.5-pro"])
+                model_name = st.selectbox("Model", ["gemini-3.6-flash", "gemini-pro"])
         else:
-            model_name = st.selectbox("Model", ["gemini-1.5-flash", "gemini-pro", "gemini-1.5-pro"])
+            model_name = st.selectbox("Model", ["gemini-3.6-flash", "gemini-pro"])
         
     st.info("Don't have a key? Get one from the developer console of the respective provider.")
 

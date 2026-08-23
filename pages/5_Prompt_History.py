@@ -143,34 +143,25 @@ for index, item in enumerate(filtered):
         f"📄 Prompt {len(filtered)-index}"
     ):
 
-        st.markdown(
-            f"**Category:** {item.get('category','General')}"
+        cols = st.columns(4)
+        cols[0].markdown(f"**Category:** {item.get('category','General')}")
+        cols[1].markdown(f"**Score:** {item.get('score','-')}/100")
+        cols[2].markdown(f"**Target Model:** {item.get('target_model','ChatGPT')}")
+        cols[3].markdown(f"**Style:** {item.get('style','Professional')}")
+
+        st.caption(f"🕒 *Optimized on: {item.get('timestamp','Unknown')}*")
+
+        st.markdown("### 📝 Original Prompt")
+
+        st.info(
+            item.get("original_prompt","")
         )
 
-        st.markdown(
-            f"**Score:** {item.get('score','-')}/100"
-        )
-
-        st.markdown(
-            f"**Target Model:** {item.get('target_model','ChatGPT')}"
-        )
-
-        st.markdown(
-            f"**Date:** {item.get('timestamp','Unknown')}"
-        )
-
-        st.markdown("### Original Prompt")
-
-        st.code(
-            item.get("original_prompt",""),
-            language="text"
-        )
-
-        st.markdown("### Optimized Prompt")
+        st.markdown("### ✨ Optimized Prompt")
 
         st.code(
             item.get("optimized_prompt",""),
-            language="text"
+            language="markdown"
         )
 
         c1, c2 = st.columns(2)

@@ -97,27 +97,39 @@ elif sort_by == "Highest Score":
     filtered.sort(key=lambda x: x.get("score", 0), reverse=True)
 
 # -------------------------------------
+# Analytics
+# -------------------------------------
+if filtered:
+    st.subheader("📈 History Analytics")
+    avg_score = sum([i.get("score", 0) for i in filtered]) / len(filtered)
+    
+    targets_list = [i.get("target_model", "ChatGPT") for i in filtered]
+    most_freq_target = max(set(targets_list), key=targets_list.count)
+    
+    cat_list = [i.get("category", "General") for i in filtered]
+    most_freq_cat = max(set(cat_list), key=cat_list.count)
+    
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Total Prompts", len(filtered))
+    m2.metric("Average Score", f"{int(avg_score)}/100")
+    m3.metric("Top Target Model", most_freq_target)
+    m4.metric("Top Category", most_freq_cat)
+    
+    st.divider()
+
+# -------------------------------------
 # Buttons
 # -------------------------------------
-
 col1, col2 = st.columns([1, 1])
 
 with col1:
-
     if st.button("🗑 Clear History"):
-
         save_history([])
-
         st.success("History Cleared")
-
         st.rerun()
 
 with col2:
-
-    st.metric(
-        "Total Prompts",
-        len(filtered)
-    )
+    pass
 
 st.divider()
 

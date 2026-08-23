@@ -60,22 +60,41 @@ if not history:
 # Search
 # -------------------------------------
 
+st.sidebar.header("Filter History")
+categories = ["All"] + sorted(list(set([item.get("category", "General") for item in history])))
+selected_category = st.sidebar.selectbox("Category", categories)
+
+targets = ["All"] + sorted(list(set([item.get("target_model", "ChatGPT") for item in history])))
+selected_target = st.sidebar.selectbox("Target Model", targets)
+
+sort_by = st.sidebar.radio("Sort By", ["Newest First", "Oldest First", "Highest Score"])
+
 search = st.text_input(
     "🔍 Search Prompt",
-    placeholder="Search by prompt or category..."
+    placeholder="Search by keyword..."
 )
 
 filtered = []
-
 for item in history:
-
+    cat_match = (selected_category == "All") or (item.get("category", "General") == selected_category)
+    tgt_match = (selected_target == "All") or (item.get("target_model", "ChatGPT") == selected_target)
+    
     text = (
         item.get("original_prompt", "") +
+        item.get("optimized_prompt", "") +
         item.get("category", "")
     ).lower()
+    search_match = (search.lower() in text)
 
-    if search.lower() in text:
+    if cat_match and tgt_match and search_match:
         filtered.append(item)
+
+if sort_by == "Newest First":
+    filtered = list(reversed(filtered))
+elif sort_by == "Oldest First":
+    pass # original order is oldest first
+elif sort_by == "Highest Score":
+    filtered.sort(key=lambda x: x.get("score", 0), reverse=True)
 
 # -------------------------------------
 # Buttons
@@ -106,7 +125,7 @@ st.divider()
 # Display History
 # -------------------------------------
 
-for index, item in enumerate(reversed(filtered)):
+for index, item in enumerate(filtered):
 
     with st.expander(
         f"📄 Prompt {len(filtered)-index}"

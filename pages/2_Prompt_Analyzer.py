@@ -122,65 +122,22 @@ if analyze_button:
 
     st.subheader("Quality Breakdown")
 
-    left, right = st.columns(2)
-
-    with left:
-
-        st.metric(
-            "Clarity",
-            analysis.clarity_score
-        )
-
-        st.progress(
-            analysis.clarity_score / 20
-        )
-
-        st.metric(
-            "Context",
-            analysis.context_score
-        )
-
-        st.progress(
-            analysis.context_score / 20
-        )
-
-        st.metric(
-            "Specificity",
-            analysis.specificity_score
-        )
-
-        st.progress(
-            analysis.specificity_score / 15
-        )
-
-    with right:
-
-        st.metric(
-            "Persona",
-            analysis.persona_score
-        )
-
-        st.progress(
-            analysis.persona_score / 15
-        )
-
-        st.metric(
-            "Constraints",
-            analysis.constraints_score
-        )
-
-        st.progress(
-            analysis.constraints_score / 15
-        )
-
-        st.metric(
-            "Output Format",
-            analysis.format_score
-        )
-
-        st.progress(
-            analysis.format_score / 15
-        )
+    import pandas as pd
+    chart_data = pd.DataFrame(
+        {
+            "Metric": ["Clarity", "Context", "Specificity", "Persona", "Constraints", "Format"],
+            "Score %": [
+                (analysis.clarity_score / 20) * 100,
+                (analysis.context_score / 20) * 100,
+                (analysis.specificity_score / 15) * 100,
+                (analysis.persona_score / 15) * 100,
+                (analysis.constraints_score / 15) * 100,
+                (analysis.format_score / 15) * 100
+            ]
+        }
+    ).set_index("Metric")
+    
+    st.bar_chart(chart_data, y="Score %", height=300)
 
     st.divider()
 

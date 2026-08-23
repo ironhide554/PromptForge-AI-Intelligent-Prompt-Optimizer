@@ -331,25 +331,17 @@ if analyze_button:
     st.subheader("🎯 Recommendation")
 
     if score >= 90:
-
-        st.success(
-            "Excellent prompt. Ready for production use."
-        )
-
+        st.success("Excellent prompt. Ready for production use.")
     elif score >= 75:
-
-        st.success(
-            "Very good prompt. Minor improvements recommended."
-        )
-
+        st.success("Very good prompt. Minor improvements recommended.")
     elif score >= 55:
-
-        st.warning(
-            "Average prompt. Consider adding more context and constraints."
-        )
-
+        st.warning("Average prompt. Consider adding more context and constraints.")
     else:
         st.error("Weak prompt. It should be rewritten before using with an LLM.")
+
+    if st.button("🚀 Send to Optimizer", use_container_width=True, type="primary"):
+        st.session_state.analyzer_to_optimizer_prompt = prompt
+        st.switch_page("pages/1_Prompt_Optimizer.py")
 
     st.divider()
 

@@ -51,7 +51,12 @@ if "optimized_prompt" not in st.session_state:
 c1, c2 = st.columns(2)
 
 with c1:
-    prompt = st.text_area("Original Prompt", height=320, placeholder="Example: Write a resume...")
+    default_prompt = st.session_state.get("analyzer_to_optimizer_prompt", "")
+    prompt = st.text_area("Original Prompt", value=default_prompt, height=320, placeholder="Example: Write a resume...")
+    
+    if "analyzer_to_optimizer_prompt" in st.session_state:
+        del st.session_state["analyzer_to_optimizer_prompt"]
+        
     run = st.button("🚀 Optimize", use_container_width=True)
 
 # --- Execution Logic ---

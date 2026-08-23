@@ -77,6 +77,13 @@ User's Original Prompt:
         
             if result and not result.startswith("Error"):
                 st.session_state.optimized_prompt = result
+                from utils.history_manager import add_to_history
+                from models.classifier import PromptClassifier
+                from utils.scoring import score_prompt
+                # Calculate category and score for the optimized prompt
+                c = PromptClassifier().classify(result)
+                s, _ = score_prompt(result)
+                add_to_history(prompt, result, c.category, s, target, style)
             elif result.startswith("Error"):
                 st.error(result)
         except Exception as e:

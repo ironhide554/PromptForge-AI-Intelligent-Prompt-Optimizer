@@ -116,6 +116,41 @@ if analyze_button:
 
     st.divider()
 
+    st.subheader("🔍 Prompt Syntax Highlight")
+    st.caption("Key prompt engineering elements are highlighted below.")
+    
+    highlighted_text = prompt
+    
+    # Simple highlighter helper
+    def highlight_words(text, words, color):
+        import re
+        for w in words:
+            # Case insensitive exact word match
+            text = re.sub(rf'\b({w})\b', rf'<span style="background-color: {color}; color: white; padding: 2px 4px; border-radius: 4px; font-weight: bold;">\1</span>', text, flags=re.IGNORECASE)
+        return text
+
+    highlighted_text = highlight_words(highlighted_text, analyzer.ACTION_VERBS, "#FF4B4B") # Red - Actions
+    highlighted_text = highlight_words(highlighted_text, analyzer.PERSONA_WORDS, "#0068C9") # Blue - Personas
+    highlighted_text = highlight_words(highlighted_text, analyzer.CONSTRAINT_WORDS, "#29B09D") # Teal - Constraints
+    highlighted_text = highlight_words(highlighted_text, analyzer.FORMAT_WORDS, "#FF8700") # Orange - Formats
+    
+    st.markdown(
+        f'<div style="background-color: #f0f2f6; padding: 15px; border-radius: 10px; color: black; font-size: 16px; line-height: 1.6;">{highlighted_text.replace(chr(10), "<br>")}</div>',
+        unsafe_allow_html=True
+    )
+    
+    st.markdown(
+        '<div style="margin-top: 10px;">'
+        '<span style="background-color: #FF4B4B; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 10px;">Action</span>'
+        '<span style="background-color: #0068C9; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 10px;">Persona</span>'
+        '<span style="background-color: #29B09D; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 10px;">Constraint</span>'
+        '<span style="background-color: #FF8700; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">Format</span>'
+        '</div>',
+        unsafe_allow_html=True
+    )
+
+    st.divider()
+
     # ------------------------------------------
     # Detailed Scores
     # ------------------------------------------

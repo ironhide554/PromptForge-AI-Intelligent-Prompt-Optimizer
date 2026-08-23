@@ -194,6 +194,17 @@ if analyze_button:
         statistics.prompt_density
     )
 
+    st.markdown("##### 💰 Estimated API Cost (Input Only)")
+    
+    gpt4_cost = (statistics.estimated_tokens / 1_000_000) * 5.00
+    claude_cost = (statistics.estimated_tokens / 1_000_000) * 3.00
+    gemini_cost = (statistics.estimated_tokens / 1_000_000) * 0.35
+    
+    p1, p2, p3 = st.columns(3)
+    p1.metric("GPT-4o", f"${gpt4_cost:.5f}")
+    p2.metric("Claude 3.5 Sonnet", f"${claude_cost:.5f}")
+    p3.metric("Gemini 1.5 Flash", f"${gemini_cost:.5f}")
+
     st.divider()
 
     # ------------------------------------------

@@ -314,10 +314,47 @@ if analyze_button:
         )
 
     else:
+        st.error("Weak prompt. It should be rewritten before using with an LLM.")
 
-        st.error(
-            "Weak prompt. It should be rewritten before using with an LLM."
-        )
+    st.divider()
+
+    # Generate Report String
+    report = f"""Prompt Analysis Report
+======================
+
+Original Prompt:
+{prompt}
+
+Overall Score: {score}/100
+Category: {category.category}
+Complexity: {analysis.complexity}
+
+Quality Breakdown:
+- Clarity: {analysis.clarity_score}/20
+- Context: {analysis.context_score}/20
+- Specificity: {analysis.specificity_score}/15
+- Persona: {analysis.persona_score}/15
+- Constraints: {analysis.constraints_score}/15
+- Format: {analysis.format_score}/15
+
+Statistics:
+- Words: {statistics.word_count}
+- Tokens: {statistics.estimated_tokens}
+- Readability: {statistics.readability}
+
+Estimated API Costs:
+- GPT-4o: ${gpt4_cost:.5f}
+- Claude 3.5: ${claude_cost:.5f}
+- Gemini Flash: ${gemini_cost:.5f}
+"""
+
+    st.download_button(
+        label="📥 Download Full Analysis Report",
+        data=report,
+        file_name="prompt_analysis_report.txt",
+        mime="text/plain",
+        use_container_width=True
+    )
 
 # ----------------------------------------------------
 # Footer

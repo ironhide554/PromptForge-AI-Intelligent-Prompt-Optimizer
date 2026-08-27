@@ -69,25 +69,38 @@ selected_target = st.sidebar.selectbox("Target Model", targets)
 
 sort_by = st.sidebar.radio("Sort By", ["Newest First", "Oldest First", "Highest Score"])
 
+search_mode = st.sidebar.radio("Search Mode", ["Keyword", "Semantic (AI)"], help="Semantic search uses embeddings to find prompts by meaning.")
+
 search = st.text_input(
     "🔍 Search Prompt",
-    placeholder="Search by keyword..."
+    placeholder="Search by keyword or concept..."
 )
 
-filtered = []
+# Pre-filter by category and target model
+pre_filtered = []
 for item in history:
     cat_match = (selected_category == "All") or (item.get("category", "General") == selected_category)
     tgt_match = (selected_target == "All") or (item.get("target_model", "ChatGPT") == selected_target)
-    
-    text = (
-        item.get("original_prompt", "") +
-        item.get("optimized_prompt", "") +
-        item.get("category", "")
-    ).lower()
-    search_match = (search.lower() in text)
+    if cat_match and tgt_match:
+        pre_filtered.append(item)
 
-    if cat_match and tgt_match and search_match:
-        filtered.append(item)
+filtered = []
+if search and search_mode == "Semantic (AI)":
+    from utils.embeddings import semantic_search
+    texts_to_search = [item.get("optimized_prompt", "") + " " + item.get("original_prompt", "") for item in pre_filtered]
+    with st.spinner("Searching semantically..."):
+        indices = semantic_search(search, texts_to_search, top_k=10)
+    filtered = [pre_filtered[i] for i in indices]
+else:
+    for item in pre_filtered:
+        text = (
+            item.get("original_prompt", "") +
+            item.get("optimized_prompt", "") +
+            item.get("category", "")
+        ).lower()
+        search_match = (search.lower() in text) if search else True
+        if search_match:
+            filtered.append(item)
 
 if sort_by == "Newest First":
     filtered = list(reversed(filtered))

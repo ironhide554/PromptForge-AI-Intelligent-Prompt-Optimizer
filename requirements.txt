@@ -14,3 +14,6 @@ openai>=1.14.0
 anthropic>=0.21.0
 google-generativeai>=0.4.0fpdf2
 tiktoken
+
+sentence-transformers
+scikit-learn

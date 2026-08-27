@@ -78,7 +78,12 @@ class PromptStats:
             else 0
         )
 
-        estimated_tokens = int(word_count * 1.3)
+        try:
+            import tiktoken
+            encoding = tiktoken.get_encoding("cl100k_base")
+            estimated_tokens = len(encoding.encode(prompt))
+        except Exception:
+            estimated_tokens = int(word_count * 1.3)
 
         estimated_reading_time = round(
             word_count / 200,

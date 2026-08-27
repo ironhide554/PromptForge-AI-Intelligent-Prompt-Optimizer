@@ -79,13 +79,28 @@ else:
                 language="text"
             )
 
-            st.download_button(
-                "⬇ Download Template",
-                data=template.template,
-                file_name=f"{template.name}.txt",
-                mime="text/plain",
-                key=template.name
-            )
+            col1, col2 = st.columns(2)
+            with col1:
+                st.download_button(
+                    "📄 Download TXT",
+                    data=template.template,
+                    file_name=f"{template.name}.txt",
+                    mime="text/plain",
+                    key=f"txt_{template.name}"
+                )
+            with col2:
+                try:
+                    from utils.pdf_generator import generate_pdf
+                    pdf_bytes = generate_pdf(template.template)
+                    st.download_button(
+                        "📑 Download PDF",
+                        data=pdf_bytes,
+                        file_name=f"{template.name}.pdf",
+                        mime="application/pdf",
+                        key=f"pdf_{template.name}"
+                    )
+                except Exception:
+                    st.error("PDF Error")
 
 st.divider()
 

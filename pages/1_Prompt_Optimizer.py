@@ -98,7 +98,15 @@ User's Original Prompt:
 with c2:
     st.text_area("Optimized Prompt", value=st.session_state.optimized_prompt, height=320)
     if st.session_state.optimized_prompt:
-        st.download_button("Download", st.session_state.optimized_prompt, file_name="optimized_prompt.txt", use_container_width=True)
+        d1, d2 = st.columns(2)
+        d1.download_button("📄 Download TXT", st.session_state.optimized_prompt, file_name="optimized_prompt.txt", use_container_width=True)
+        
+        try:
+            from utils.pdf_generator import generate_pdf
+            pdf_bytes = generate_pdf(st.session_state.optimized_prompt)
+            d2.download_button("📑 Download PDF", pdf_bytes, file_name="optimized_prompt.pdf", mime="application/pdf", use_container_width=True)
+        except Exception as e:
+            d2.error("PDF generation failed")
 
 st.divider()
 

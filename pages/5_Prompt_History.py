@@ -164,12 +164,11 @@ for index, item in enumerate(filtered):
             language="markdown"
         )
 
-        c1, c2 = st.columns(2)
+        c1, c2, c3 = st.columns(3)
 
         with c1:
-
             st.download_button(
-                "⬇ Download",
+                "📄 Download TXT",
                 item.get("optimized_prompt",""),
                 file_name=f"prompt_{index+1}.txt",
                 mime="text/plain",
@@ -177,7 +176,20 @@ for index, item in enumerate(filtered):
             )
 
         with c2:
+            try:
+                from utils.pdf_generator import generate_pdf
+                pdf_bytes = generate_pdf(item.get("optimized_prompt",""))
+                st.download_button(
+                    "📑 Download PDF",
+                    pdf_bytes,
+                    file_name=f"prompt_{index+1}.pdf",
+                    mime="application/pdf",
+                    key=f"pdf_dl_{index}"
+                )
+            except Exception:
+                st.error("PDF Error")
 
+        with c3:
             if st.button(
                 "❌ Delete",
                 key=f"delete_{index}"

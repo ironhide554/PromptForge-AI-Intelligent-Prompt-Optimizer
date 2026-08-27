@@ -12,7 +12,7 @@ if css_path.exists():
     st.markdown(f"<style>{css_path.read_text()}</style>", unsafe_allow_html=True)
 
 st.title("✨ Welcome to PromptForge AI")
-st.markdown("### The Intelligent Prompt Optimizer using Transformer Models")
+st.markdown("### The Intelligent Prompt Optimizer using Cloud AI Models")
 
 st.divider()
 
@@ -27,7 +27,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     st.info("### 🚀 Prompt Optimizer")
-    st.write("Convert basic prompts into professional, highly-structured prompts using our local FLAN-T5 model.")
+    st.write("Convert basic prompts into professional, highly-structured prompts using state-of-the-art Cloud AI models.")
     st.page_link("pages/1_Prompt_Optimizer.py", label="Go to Optimizer", icon="🚀")
 
 with col2:

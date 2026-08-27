@@ -226,22 +226,6 @@ Download Result
 
 ---
 
-# 📷 Screenshots
-
-Add screenshots here after running the project.
-
-```
-screenshots/
-
-home.png
-
-optimized_prompt.png
-
-prompt_score.png
-```
-
----
-
 # 📊 Example
 
 Original Prompt
@@ -302,11 +286,8 @@ Requirements:
 # 💼 Skills Demonstrated
 
 * Prompt Engineering
-* Transformer Models
 * Natural Language Processing
 * Streamlit
-* Hugging Face
-* PyTorch
 * Model Inference
 * Text Generation
 * AI Application Development
@@ -362,6 +343,6 @@ If you found this project helpful:
 
 <div align="center">
 
-Made with ❤️ using Streamlit and Hugging Face Transformers
+Made with ❤️ using Streamlit
 
 </div>

@@ -101,9 +101,23 @@ Optimize prompts specifically for
 
 ---
 
+## 🛠️ Advanced Prompt Builders
+
+* **Few-shot Builder**: Easily construct prompts using input/output examples.
+* **Chain-of-Thought (CoT) Builder**: Force AI to think step-by-step for better reasoning.
+
+---
+
+## 🔍 Semantic Search & Library
+
+* **Embeddings Search**: Find past prompts in your history using meaning/concepts instead of just keywords.
+* **Templates Marketplace**: Discover and download community-built templates.
+
+---
+
 ## 📥 Export Prompt
 
-Download the optimized prompt as a text file.
+Download the optimized prompt as a text file or PDF.
 
 ---
 
@@ -254,32 +268,10 @@ Requirements:
 
 # 🎯 Future Roadmap
 
-## Phase 1
-
-* Prompt Optimizer
-* Prompt Score
-* Prompt Suggestions
-
-## Phase 2
-
-* Prompt Type Detection
-* Prompt Comparison
-* Prompt Analyzer
-
-## Phase 3
-
-* Prompt Library
-* Prompt History
-* SQLite Integration
-* Export PDF
-
-## Phase 4
-
-* Embeddings Search
-* Few-shot Prompt Generation
-* Chain-of-Thought Builder
-* Token Estimation
-* Prompt Templates Marketplace
+All primary phases (Phase 1 through Phase 4) have been fully implemented! Future updates will focus on:
+* Multi-agent workflows
+* Automated prompt A/B testing
+* Cloud synchronization
 
 ---
 

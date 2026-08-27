@@ -40,6 +40,26 @@ with col3:
     st.write("Test your optimized prompts directly against live LLMs securely using your own API keys.")
     st.page_link("pages/7_Sandbox.py", label="Go to Sandbox", icon="🧪")
 
+st.write("")
+st.write("")
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    st.info("### 📝 Few-Shot Builder")
+    st.write("Construct powerful prompts by easily providing input/output examples.")
+    st.page_link("pages/8_Few_Shot_Builder.py", label="Go to Few-Shot", icon="📝")
+
+with c2:
+    st.info("### 🧠 CoT Builder")
+    st.write("Force AI to think step-by-step to improve reasoning and accuracy.")
+    st.page_link("pages/9_CoT_Builder.py", label="Go to CoT Builder", icon="🧠")
+
+with c3:
+    st.info("### 🌐 Marketplace")
+    st.write("Discover and download prompt templates shared by the community.")
+    st.page_link("pages/4_Prompt_Library.py", label="Go to Marketplace", icon="🌐")
+
 st.divider()
 
 st.markdown("""

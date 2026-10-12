@@ -80,8 +80,71 @@ def generate_statistics(original: str, optimized: str) -> dict:
     }
 
 
+def load_custom_css():
+    """Injects the enterprise style system and brand identity across pages."""
+    import streamlit as st
+    from pathlib import Path
+    css_path = Path("assets/style.css")
+    if css_path.exists():
+        st.markdown(f"<style>{css_path.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
+
+
+def render_sidebar_branding():
+    """Renders cohesive sidebar branding."""
+    import streamlit as st
+    with st.sidebar:
+        st.markdown("""
+        <div style="padding: 0.25rem 0 0.85rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                <span style="font-size: 1.4rem;">✨</span>
+                <span style="font-weight: 800; font-size: 1.15rem; background: linear-gradient(135deg, #A5B4FC, #818CF8, #38BDF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">PromptForge AI</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10B981; box-shadow: 0 0 6px #10B981;"></span>
+                <span style="font-size: 0.75rem; color: #94A3B8; font-weight: 600;">Gemini 3 Flash Preview • Active</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+
+def render_page_header(title: str, subtitle: str, icon: str = "✨", badge: str = "PROMPT STUDIO"):
+    """Renders an executive page header banner."""
+    import streamlit as st
+    st.markdown(f"""
+    <div style="margin-bottom: 1.75rem;">
+        <div class="pf-pill">
+            <span class="pf-pill-dot"></span>
+            <span>{badge}</span>
+        </div>
+        <h1 style="margin: 0 0 0.4rem 0; font-size: 2.25rem;">
+            <span>{icon}</span> <span class="pf-gradient-title">{title}</span>
+        </h1>
+        <p style="color: #94A3B8; font-size: 1.05rem; margin: 0; line-height: 1.5;">{subtitle}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+def render_footer():
+    """Renders the standard sleek platform footer."""
+    import streamlit as st
+    st.markdown("""
+    <div class="pf-footer-container">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 0.75rem; flex-wrap: wrap;">
+            <span class="pf-status-badge">
+                <span style="width: 6px; height: 6px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
+                Gemini Cloud Engine Online
+            </span>
+            <span style="color: #64748B;">•</span>
+            <span style="color: #94A3B8; font-size: 0.825rem;">Exclusively powered by Google Gemini 3 Flash Preview (gemini-3-flash-preview)</span>
+        </div>
+        <p style="margin: 0; color: #64748B; font-size: 0.8rem;">PromptForge AI © 2026 • Intelligent Prompt Optimizer</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+
 if __name__ == "__main__":
     sample = "Write a Python REST API using FastAPI."
     cleaned = clean_prompt(sample)
 
     print(generate_statistics(sample, cleaned))
+

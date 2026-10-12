@@ -3,13 +3,17 @@ import difflib
 
 from utils.prompt_stats import PromptStats
 from models.classifier import PromptClassifier
+from utils.helper import load_custom_css, render_sidebar_branding, render_page_header, render_footer
 
 
 st.set_page_config(
-    page_title="Prompt Comparison",
+    page_title="Prompt Comparison | PromptForge AI",
     page_icon="⚖️",
     layout="wide"
 )
+
+load_custom_css()
+render_sidebar_branding()
 
 stats_engine = PromptStats()
 classifier = PromptClassifier()
@@ -18,12 +22,12 @@ classifier = PromptClassifier()
 # Header
 # --------------------------------------------------
 
-st.title("⚖️ Prompt Comparison")
-
-st.markdown("""
-Compare your original prompt with the optimized prompt and
-see how PromptForge AI improves prompt quality.
-""")
+render_page_header(
+    title="Prompt Comparison",
+    subtitle="Compare original vs. optimized prompts side-by-side with visual diffs and token efficiency analysis.",
+    icon="⚖️",
+    badge="SIDE-BY-SIDE DIFF"
+)
 
 st.divider()
 
@@ -315,8 +319,4 @@ if compare:
 # Footer
 # --------------------------------------------------
 
-st.markdown("---")
-
-st.caption(
-    "PromptForge AI • Prompt Comparison"
-)
+render_footer()

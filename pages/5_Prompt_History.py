@@ -1,13 +1,16 @@
 import json
 from pathlib import Path
 
-import streamlit as st
+from utils.helper import load_custom_css, render_sidebar_branding, render_page_header, render_footer
 
 st.set_page_config(
-    page_title="Prompt History",
+    page_title="Prompt History | PromptForge AI",
     page_icon="🕒",
     layout="wide"
 )
+
+load_custom_css()
+render_sidebar_branding()
 
 # -------------------------------------
 # Configuration
@@ -24,20 +27,16 @@ HISTORY_FILE = DATA_DIR / "history.json"
 # -------------------------------------
 
 def load_history():
-
     if not HISTORY_FILE.exists():
         return []
-
     try:
         with open(HISTORY_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
-
     except Exception:
         return []
 
 
 def save_history(history):
-
     with open(HISTORY_FILE, "w", encoding="utf-8") as f:
         json.dump(history, f, indent=4)
 
@@ -46,14 +45,18 @@ def save_history(history):
 # UI
 # -------------------------------------
 
-st.title("🕒 Prompt History")
+render_page_header(
+    title="Prompt History & Audit Trail",
+    subtitle="Review previous optimizations, track quality trends over time, or re-export prompt artifacts.",
+    icon="🕒",
+    badge="AUDIT LOG"
+)
 
 history = load_history()
 
 if not history:
-
-    st.info("No prompt history available.")
-
+    st.info("No prompt history available yet. Generate an optimized prompt in the Optimizer to build your audit log.")
+    render_footer()
     st.stop()
 
 # -------------------------------------
@@ -214,6 +217,4 @@ for index, item in enumerate(filtered):
 
                 st.rerun()
 
-st.divider()
-
-st.caption("PromptForge AI • Prompt History")
+render_footer()

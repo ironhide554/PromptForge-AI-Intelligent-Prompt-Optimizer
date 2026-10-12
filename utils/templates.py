@@ -254,10 +254,61 @@ Requirements:
 
         return results
 
+    def load_custom_templates(self):
+        """Loads user-saved custom templates from data/custom_templates.json."""
+        from pathlib import Path
+        import json
+        custom_file = Path("data/custom_templates.json")
+        if custom_file.exists():
+            try:
+                with open(custom_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    for item in data:
+                        t = PromptTemplate(
+                            name=item["name"],
+                            category=item.get("category", "Custom"),
+                            description=item.get("description", ""),
+                            template=item.get("template", "")
+                        )
+                        self.templates[t.name] = t
+            except Exception:
+                pass
+
+    def add_custom_template(self, name: str, category: str, description: str, template: str):
+        """Saves a new custom template to data/custom_templates.json."""
+        from pathlib import Path
+        import json
+        data_dir = Path("data")
+        data_dir.mkdir(exist_ok=True)
+        custom_file = data_dir / "custom_templates.json"
+        current = []
+        if custom_file.exists():
+            try:
+                with open(custom_file, "r", encoding="utf-8") as f:
+                    current = json.load(f)
+            except Exception:
+                current = []
+        # Update existing or append new
+        current = [t for t in current if t.get("name") != name]
+        current.append({
+            "name": name,
+            "category": category,
+            "description": description,
+            "template": template
+        })
+        with open(custom_file, "w", encoding="utf-8") as f:
+            json.dump(current, f, indent=4)
+        self.templates[name] = PromptTemplate(
+            name=name,
+            category=category,
+            description=description,
+            template=template
+        )
+
     # --------------------------------------------------
 
     def get_all_templates(self):
-
+        self.load_custom_templates()
         return list(self.templates.values())
 
 

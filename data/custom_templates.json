@@ -1,0 +1,8 @@
+[
+    {
+        "name": "Test Architecture",
+        "category": "Custom",
+        "description": "Unit test template",
+        "template": "Act as an architect. {task}"
+    }
+]

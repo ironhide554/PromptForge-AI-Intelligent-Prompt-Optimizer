@@ -1,17 +1,17 @@
 import json
 from pathlib import Path
-
 import streamlit as st
-
+from utils.helper import load_custom_css, render_sidebar_branding, render_page_header, render_footer
 
 # Page Config
-
-
 st.set_page_config(
-    page_title="Settings",
+    page_title="Settings | PromptForge AI",
     page_icon="⚙️",
     layout="wide"
 )
+
+load_custom_css()
+render_sidebar_branding()
 
 
 # File Paths
@@ -24,7 +24,7 @@ SETTINGS_FILE = DATA_DIR / "settings.json"
 
 DEFAULT_SETTINGS = {
 
-    "target_model": "ChatGPT",
+    "target_model": "Gemini 3 Flash Preview",
 
     "optimization_style": "Professional",
 
@@ -87,10 +87,11 @@ settings = load_settings()
 # UI
 
 
-st.title("⚙️ Settings")
-
-st.write(
-    "Customize PromptForge AI according to your preferences."
+render_page_header(
+    title="Studio Settings",
+    subtitle="Configure default target LLMs, temperature baselines, output parameters, and behavior.",
+    icon="⚙️",
+    badge="SYSTEM CONFIG"
 )
 
 st.divider()
@@ -100,42 +101,22 @@ st.divider()
 
 st.subheader("🤖 AI Configuration")
 
+model_options = [
+    "Gemini 3 Flash Preview",
+    "ChatGPT",
+    "Claude",
+    "DeepSeek",
+    "Llama",
+    "Mistral"
+]
+current_model = settings.get("target_model", "Gemini 3 Flash Preview")
+if current_model not in model_options:
+    current_model = "Gemini 3 Flash Preview"
+
 settings["target_model"] = st.selectbox(
-
     "Default Target Model",
-
-    [
-
-        "ChatGPT",
-
-        "Claude",
-
-        "Gemini",
-
-        "DeepSeek",
-
-        "Llama",
-
-        "Mistral"
-
-    ],
-
-    index=[
-
-        "ChatGPT",
-
-        "Claude",
-
-        "Gemini",
-
-        "DeepSeek",
-
-        "Llama",
-
-        "Mistral"
-
-    ].index(settings["target_model"])
-
+    model_options,
+    index=model_options.index(current_model)
 )
 
 settings["optimization_style"] = st.selectbox(
@@ -294,6 +275,4 @@ with st.expander("📄 Current Configuration"):
 
     st.json(settings)
 
-st.divider()
-
-st.caption("PromptForge AI • Settings")
+render_footer()
